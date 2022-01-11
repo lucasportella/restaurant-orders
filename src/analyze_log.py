@@ -24,6 +24,22 @@ def meal_counter(orders, meal):
     return counter
 
 
+def get_all_meals(path_to_file):
+    meals = set()
+    with open (path_to_file) as file:
+        reader = csv.reader(file, delimiter=",", quotechar='"')
+        for row in reader:
+            if row[1] not in meals:
+                meals.add(row[1])
+    return meals
+
+def client_meals(orders):
+    meals = set()
+    for order in orders:
+        if order[0] not in meals:
+            meals.add(order[0])
+    return meals
+
 
 
 def analyze_log(path_to_file):
@@ -35,10 +51,13 @@ def analyze_log(path_to_file):
                 orders[row[0]] = [[row[1], row[2]]]
             else:
                 orders[row[0]].append([row[1], row[2]])
-    # only maria orders
+
     maria_fav_meal = fav_meal(orders['maria'])
     arnaldo_burguer_counter = meal_counter(orders['arnaldo'],'hamburguer')
     
+    all_meals = get_all_meals('data/orders_1.csv')
+    joao_meals = client_meals(orders['joao'])
+    not_joao_meals = all_meals.difference(joao_meals)
     
        
 

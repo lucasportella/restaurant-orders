@@ -1,7 +1,7 @@
 import csv
 
 
-def maria_fav_meal(orders):
+def fav_meal(orders):
     meals = {}
     biggest = 0
     fav_meal = ''
@@ -16,6 +16,14 @@ def maria_fav_meal(orders):
             fav_meal = order[0]
     return fav_meal
 
+def meal_counter(orders, meal):
+    counter = 0
+    for order in orders:
+        if order[0] == meal:
+            counter +=1
+    return counter
+
+
 
 
 def analyze_log(path_to_file):
@@ -28,8 +36,10 @@ def analyze_log(path_to_file):
             else:
                 orders[row[0]].append([row[1], row[2]])
     # only maria orders
-    row1 = maria_fav_meal(orders['maria'])
-    print(row1)
+    maria_fav_meal = fav_meal(orders['maria'])
+    arnaldo_burguer_counter = meal_counter(orders['arnaldo'],'hamburguer')
+    
+    
        
 
 analyze_log('data/orders_1.csv')

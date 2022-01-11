@@ -40,6 +40,22 @@ def client_meals(orders):
             meals.add(order[0])
     return meals
 
+def get_all_days(path_to_file):
+    days = set()
+    with open (path_to_file) as file:
+        reader = csv.reader(file, delimiter=",", quotechar='"')
+        for row in reader:
+            if row[2] not in days:
+                days.add(row[2])
+    return days
+
+def client_days(orders):
+    days = set()
+    for order in orders:
+        if order[1] not in days:
+            days.add(order[1])
+    return days
+
 
 
 def analyze_log(path_to_file):
@@ -53,25 +69,24 @@ def analyze_log(path_to_file):
                 orders[row[0]].append([row[1], row[2]])
 
     maria_fav_meal = fav_meal(orders['maria'])
+   
     arnaldo_burguer_counter = meal_counter(orders['arnaldo'],'hamburguer')
     
     all_meals = get_all_meals('data/orders_1.csv')
     joao_meals = client_meals(orders['joao'])
     not_joao_meals = all_meals.difference(joao_meals)
     
+    all_days = get_all_days('data/orders_1.csv')
+    joao_days = client_days(orders['joao'])
+    not_joao_days = all_days.difference(joao_days)
+
+    content = [maria_fav_meal, arnaldo_burguer_counter, not_joao_meals, not_joao_days]
+
+    with open('data/mkt_campaign.txt', 'w') as file:
+        for data in content:
+            file.write(f'{str(data)}\n')
+    
+    
        
 
 analyze_log('data/orders_1.csv')
-
-
-
-
-
-
-# dict of lists:
-#  for row in reader:
-#             if row[0] not in orders:
-#                 orders[row[0]] = [row]
-#             else:
-#                 orders[row[0]].append(row)
-#         print(orders)

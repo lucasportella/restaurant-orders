@@ -89,4 +89,3 @@ class TrackOrders:
                 smallest = count
                 least_busy = day
         return least_busy
-

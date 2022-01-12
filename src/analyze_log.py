@@ -57,8 +57,7 @@ def client_days(orders):
     return days
 
 
-
-def analyze_log(path_to_file):
+def csv_reader(path_to_file):
     orders = {}
     with open (path_to_file) as file:
         reader = csv.reader(file, delimiter=",", quotechar='"')
@@ -67,6 +66,10 @@ def analyze_log(path_to_file):
                 orders[row[0]] = [[row[1], row[2]]]
             else:
                 orders[row[0]].append([row[1], row[2]])
+    return orders
+
+def analyze_log(path_to_file):
+    orders = csv_reader(path_to_file)
 
     maria_fav_meal = fav_meal(orders['maria'])
    

@@ -7,9 +7,11 @@ class TrackOrders:
         self.costumer_orders = {}
 
     def __len__(self):
+        # O(1)
         return len(self.orders)
 
     def data_parser(self, costumer, meal, day):
+        # O(1)
         if costumer not in self.costumers:
             self.costumers.add(costumer)
         if meal not in self.meals:
@@ -29,7 +31,19 @@ class TrackOrders:
     
 
     def get_most_ordered_dish_per_costumer(self, costumer):
-        pass
+        # O(n)
+        costumer_meals_counter = {}
+        biggest = 0
+        favorite = ''
+        for meal, _day in self.costumer_orders[costumer]:
+            if meal not in costumer_meals_counter:
+                costumer_meals_counter[meal] = 1
+            else:
+                costumer_meals_counter[meal] += 1
+            if costumer_meals_counter[meal] > biggest:
+                biggest = costumer_meals_counter[meal]
+                favorite = meal
+        return favorite
 
     def get_never_ordered_per_costumer(self, costumer):
         pass
@@ -61,4 +75,4 @@ track1 = TrackOrders()
 for costumer, meal, day in csv_parsed:
     track1.add_new_order(costumer, meal, day)
 
-print(track1.costumer_orders)
+print(track1.get_most_ordered_dish_per_costumer('maria'))

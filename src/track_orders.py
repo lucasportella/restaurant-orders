@@ -90,15 +90,3 @@ class TrackOrders:
                 least_busy = day
         return least_busy
 
-
-csv_parsed = [
-    ["maria", "pizza", "terça-feira"],
-    ["maria", "hamburguer", "terça-feira"],
-    ["joao", "hamburguer", "terça-feira"],
-    ["maria", "coxinha", "segunda-feira"],
-    ["arnaldo", "misto-quente", "terça-feira"],
-    ["jose", "hamburguer", "sabado"],
-    ["maria", "hamburguer", "terça-feira"],
-    ["maria", "hamburguer", "terça-feira"],
-    ["joao", "hamburguer", "terça-feira"],
-]

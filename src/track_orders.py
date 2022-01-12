@@ -23,18 +23,16 @@ class TrackOrders:
             self.costumer_orders[costumer] = [(meal, day)]
         else:
             self.costumer_orders[costumer].append((meal, day))
-        
 
     def add_new_order(self, costumer, meal, day):
         self.orders.append((costumer, meal, day))
         self.data_parser(costumer, meal, day)
-    
 
     def get_most_ordered_dish_per_costumer(self, costumer):
         # O(n)
         costumer_meals_counter = {}
         biggest = 0
-        favorite = ''
+        favorite = ""
         for meal, _day in self.costumer_orders[costumer]:
             if meal not in costumer_meals_counter:
                 costumer_meals_counter[meal] = 1
@@ -46,16 +44,51 @@ class TrackOrders:
         return favorite
 
     def get_never_ordered_per_costumer(self, costumer):
-        pass
+        # O(n)
+        costumer_meals = set()
+        for meal, _day in self.costumer_orders[costumer]:
+            if meal not in costumer_meals:
+                costumer_meals.add(meal)
+        return self.meals.difference(costumer_meals)
 
     def get_days_never_visited_per_costumer(self, costumer):
-        pass
+        # O(n)
+        costumer_days = set()
+        for _meal, day in self.costumer_orders[costumer]:
+            if day not in costumer_days:
+                costumer_days.add(day)
+        return self.days.difference(costumer_days)
 
     def get_busiest_day(self):
-        pass
+        days_counter = {}
+        biggest = 0
+        busiest = ""
+        for _costumer, _meal, day in self.orders:
+            if day not in days_counter:
+                days_counter[day] = 1
+            else:
+                days_counter[day] += 1
+            if days_counter[day] > biggest:
+                biggest = days_counter[day]
+                busiest = day
+        return busiest
 
     def get_least_busy_day(self):
-        pass
+        # O(n+n)
+        days_counter = {}
+        for _costumer, _meal, day in self.orders:
+            if day not in days_counter:
+                days_counter[day] = 1
+            else:
+                days_counter[day] += 1
+
+        smallest = False
+        least_busy = ""
+        for day, count in days_counter.items():
+            if not smallest or count < smallest:
+                smallest = count
+                least_busy = day
+        return least_busy
 
 
 csv_parsed = [
@@ -69,10 +102,3 @@ csv_parsed = [
     ["maria", "hamburguer", "terça-feira"],
     ["joao", "hamburguer", "terça-feira"],
 ]
-
-track1 = TrackOrders()
-
-for costumer, meal, day in csv_parsed:
-    track1.add_new_order(costumer, meal, day)
-
-print(track1.get_most_ordered_dish_per_costumer('maria'))
